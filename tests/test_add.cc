@@ -30,7 +30,9 @@ int main() {
   // cout << (mint<int, 4>{5} + mint<int, 4>{7});
   // cout << pow(mint<int, 5>{4}, 5);
 
-  cout << (pow(mint<int>{5}, 5));
+  // cout << to_string(pow(mint<int>{5}, 5));
+
+  mint<int> x{5};
 
   return 0;
 }

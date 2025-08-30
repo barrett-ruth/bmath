@@ -19,13 +19,13 @@ class mint {
   [[nodiscard]] constexpr explicit mint(T t) : value{t % M} {}
   [[nodiscard]] constexpr explicit operator T() const noexcept { return value; }
 
-  [[nodiscard]] constexpr mint<T, M> operator+(
-      mint const other) const noexcept {
+  [[nodiscard]] constexpr mint operator+(mint const other) const noexcept {
     T result{add(static_cast<T>(other.get()))};
 
     return mint<T, M>{result};
   }
-  [[nodiscard]] constexpr mint& operator+=(mint const other) const noexcept {
+
+  constexpr mint& operator+=(mint const other) const noexcept {
     value += other.value;
 
     return *this;
@@ -44,7 +44,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  [[nodiscard]] constexpr mint& operator*=(mint const other) noexcept {
+  constexpr mint& operator*=(mint const other) noexcept {
     value *= other.value;
 
     return *this;
@@ -61,7 +61,8 @@ class mint {
 
     return mint<T, M>{result};
   }
-  [[nodiscard]] constexpr mint& operator/=(mint const other) noexcept {
+
+  constexpr mint& operator/=(mint const other) noexcept {
     if constexpr (other.get() == 0) {
       static_assert(false, "Cannot divide by 0");
     } else if (other.get() == 0) {
@@ -79,10 +80,28 @@ class mint {
     return mint<T, M>{result};
   }
 
-  [[nodiscard]] constexpr mint& operator%=(mint const other) const noexcept {
+  constexpr mint& operator%=(mint const other) const noexcept {
     value %= other.value;
 
     return *this;
+  }
+
+  [[nodiscard]] constexpr mint operator-() const noexcept {
+    return mint<T, M>{M - get()};
+  }
+
+  constexpr mint operator++() noexcept {
+    value += 1;
+
+    return *this;
+  }
+
+  constexpr mint operator++(int) noexcept {
+    auto _this = *this;
+
+    value += 1;
+
+    return _this;
   }
 
   [[nodiscard]] constexpr T get() const noexcept { return value; }
