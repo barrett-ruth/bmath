@@ -27,10 +27,12 @@ WARNFLAGS := \
   -Wduplicated-cond \
   -Wduplicated-branches \
   -Wnull-dereference \
+  -Wno-conversion \
   -Wformat-overflow \
   -Wformat-truncation \
   -Wdouble-promotion \
   -Wundef
+
 BASEDEFS := -DLOCAL
 INCLUDES := -I$(INCLUDE_DIR)
 
@@ -48,6 +50,7 @@ DBGFLAGS := \
   -ffunction-sections \
   -D_GLIBCXX_DEBUG \
   -D_GLIBCXX_DEBUG_PEDANTIC
+
 DBG_LDFLAGS := \
   -fsanitize=address,undefined \
   -fsanitize=float-divide-by-zero \
