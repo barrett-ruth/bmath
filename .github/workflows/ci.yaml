@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y clang-format
+      - name: Check clang-format
+        run: |
+          set -e
+          FILES=$(git ls-files | grep -E '\.(cc|hh|hpp|cpp|cxx)$' || true)
+          if [ -z "$FILES" ]; then exit 0; fi
+          clang-format --version
+          for f in $FILES; do
+            clang-format --dry-run -Werror "$f"
+          done
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install compiler
+        run: sudo apt-get update && sudo apt-get install -y g++
+      - name: Debug tests (asserts + sanitizers)
+        run: make test MODE=debug
