@@ -57,6 +57,7 @@ DBG_LDFLAGS := \
   -fsanitize=float-cast-overflow
 
 CXXFLAGS := $(STD) $(WARNFLAGS) $(INCLUDES) $(BASEDEFS)
+CXXFLAGS += -MMD -MP
 ifeq ($(MODE),debug)
   CXXFLAGS += $(DBGFLAGS)
   LDFLAGS += $(DBG_LDFLAGS)
@@ -87,6 +88,7 @@ test: .TEST
 $(BUILD_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.cc
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+-include $(TEST_OBJ:.o=.d)
 
 $(TEST_EXE): $(TEST_OBJ)
 	@mkdir -p $(dir $@)
