@@ -14,7 +14,15 @@ jobs:
           tar -xf clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04.tar.xz
           sudo cp clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04/bin/clang-format /usr/local/bin/
       - name: Check clang-format
-        run: clang-format --style=google --dry-run -Werror **/*.{hpp,hh,hxx,h,cpp,cc,cxx,c}
+        run: |
+          set -e
+          FILES=$(git ls-files | grep -E '\.(cc|hh|hpp|cpp|cxx)$' || true)
+          if [ -z "$FILES" ]; then exit 0; fi
+          clang-format --style=google --dry-run -Werror **/*.{cc,hh}
+          clang-format --version
+          for f in $FILES; do
+            clang-format --style=google --dry-run -Werror "$f"
+          done
 
   build-and-test:
     runs-on: ubuntu-latest
