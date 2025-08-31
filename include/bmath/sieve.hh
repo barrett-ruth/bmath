@@ -12,7 +12,7 @@ template <typename Derived, size_t Limit>
   requires(Limit > 0)
 class Sieve {
  public:
-  constexpr explicit Sieve() { static_cast<Derived *>(this)->build(); }
+  constexpr explicit Sieve() noexcept { static_cast<Derived *>(this)->build(); }
 
  protected:
   std::bitset<Limit + 1> sieve;
@@ -41,13 +41,15 @@ class Eratosthenes : public Sieve<Eratosthenes<Limit>, Limit> {
   [[nodiscard]] constexpr bool operator[](size_t const number) const {
     if consteval {
       if (number > Limit) {
-        throw std::out_of_range(std::format(
-            "cannot determine primality of {} > LIMIT={}", number, Limit));
+        throw std::out_of_range(
+            std::format("cannot determine primality of {} > size of sieve {}",
+                        number, Limit));
       }
     } else {
       if (number > Limit) {
-        throw std::out_of_range(std::format(
-            "cannot determine primality of {} > LIMIT={}", number, Limit));
+        throw std::out_of_range(
+            std::format("cannot determine primality of {} > size of sieve {}",
+                        number, Limit));
       }
     }
 
