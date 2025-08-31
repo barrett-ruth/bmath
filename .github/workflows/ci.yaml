@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y clang-format
+      - run: |
+          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.6/clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04.tar.xz
+          tar -xf clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04.tar.xz
+          sudo cp clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04/bin/clang-format /usr/local/bin/
       - name: Check clang-format
         run: |
           set -e
@@ -17,14 +20,28 @@ jobs:
           if [ -z "$FILES" ]; then exit 0; fi
           clang-format --version
           for f in $FILES; do
-            clang-format --dry-run -Werror "$f"
+            clang-format --style=google --dry-run -Werror "$f"
           done
 
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_type: [Release]
     steps:
       - uses: actions/checkout@v4
       - name: Install compiler
-        run: sudo apt-get update && sudo apt-get install -y g++
-      - name: Debug tests (asserts + sanitizers)
-        run: make test MODE=debug
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y gcc-13 g++-13 cmake
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

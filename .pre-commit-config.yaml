@@ -1,7 +1,12 @@
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
-  rev: v17.0.6
-  hooks:
-    - id: clang-format
-      args: [--style=file]
-      files: \.(cc|cpp|cxx|hh|hpp|hxx)$
+    rev: v17.0.6
+    hooks:
+      - id: clang-format
+        args: [--style=google]
+        files: \.(cc|cpp|cxx|hh|hpp|hxx)$
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        files: "^readme\\.md$"

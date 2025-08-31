@@ -1,13 +1,13 @@
-#ifndef BMATH_HEADER_ONLY_MATH_LIB
-#define BMATH_HEADER_ONLY_MATH_LIB
+#ifndef BMATH_MINT_HH
+#define BMATH_MINT_HH
+
+namespace bmath {
 
 #include <format>
 #include <iterator>
 #include <ostream>
 #include <stdexcept>
 #include <string>
-
-namespace bmath {
 
 inline constexpr uint64_t DEFAULT_MOD = 1'000'000'007;
 
@@ -25,7 +25,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator+=(mint const other) const noexcept {
+  constexpr mint &operator+=(mint const other) const noexcept {
     value += other.value;
 
     return *this;
@@ -44,7 +44,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator*=(mint const other) noexcept {
+  constexpr mint &operator*=(mint const other) noexcept {
     value *= other.value;
 
     return *this;
@@ -62,7 +62,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator/=(mint const other) noexcept {
+  constexpr mint &operator/=(mint const other) noexcept {
     if constexpr (other.get() == 0) {
       static_assert(false, "Cannot divide by 0");
     } else if (other.get() == 0) {
@@ -80,7 +80,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator%=(mint const other) const noexcept {
+  constexpr mint &operator%=(mint const other) const noexcept {
     value %= other.value;
 
     return *this;
@@ -110,9 +110,7 @@ class mint {
     return get() == static_cast<T>(other.get());
   }
 
-  template <std::convertible_to<T> OtherT, OtherT OtherM>
-  friend std::ostream& operator<<(std::ostream& out,
-                                  mint<OtherT, OtherM> const other) {
+  friend std::ostream &operator<<(std::ostream &out, mint const other) {
     return out << other.get();
   }
 
@@ -187,12 +185,12 @@ template <class CharT, std::integral T, T M>
 struct std::formatter<bmath::mint<T, M>, CharT> {
   std::formatter<std::basic_string_view<CharT>, CharT> inner;
 
-  constexpr auto parse(std::basic_format_parse_context<CharT>& pc) {
+  constexpr auto parse(std::basic_format_parse_context<CharT> &pc) {
     return inner.parse(pc);
   }
 
   template <class Ctx>
-  auto format(bmath::mint<T, M> const x, Ctx& ctx) const {
+  auto format(bmath::mint<T, M> const x, Ctx &ctx) const {
     std::basic_string<CharT> tmp;
     if constexpr (std::same_as<CharT, wchar_t>) {
       std::format_to(std::back_inserter(tmp), L"{}", x.get());

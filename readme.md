@@ -6,4 +6,4 @@ header-only c++ 23 math library
 
 [] sieves
 [] factorization
-[] `std::unsigned_integral` as modulus type
+[x] `std::unsigned_integral` as modulus type
