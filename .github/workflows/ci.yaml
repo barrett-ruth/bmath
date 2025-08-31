@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y clang-format
+      - run: |
+          wget https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.6/clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04.tar.xz
+          tar -xf clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04.tar.xz
+          sudo cp clang+llvm-17.0.6-x86_64-linux-gnu-ubuntu-22.04/bin/clang-format /usr/local/bin/
       - name: Check clang-format
         run: |
           set -e
@@ -17,7 +20,7 @@ jobs:
           if [ -z "$FILES" ]; then exit 0; fi
           clang-format --version
           for f in $FILES; do
-            clang-format --dry-run -Werror "$f"
+            clang-format --style=google --dry-run -Werror "$f"
           done
 
   build-and-test:
