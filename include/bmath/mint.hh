@@ -1,13 +1,13 @@
 #ifndef BMATH_MINT_HH
 #define BMATH_MINT_HH
 
-namespace bmath {
-
 #include <format>
 #include <iterator>
 #include <ostream>
 #include <stdexcept>
 #include <string>
+
+namespace bmath {
 
 inline constexpr uint64_t DEFAULT_MOD = 1'000'000'007;
 
