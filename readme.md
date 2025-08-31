@@ -4,6 +4,7 @@ header-only c++ 23 math library
 
 ## todo
 
-[] sieves
-[] factorization
-[x] `std::unsigned_integral` as modulus type
+- sieves (pritchard, eratosthenes)
+- factorization (pollard-rho, rabin-miller)
+- profiling
+- saturating arithmetic operations
