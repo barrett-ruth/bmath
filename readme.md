@@ -4,7 +4,7 @@ header-only c++ 23 math library
 
 ## todo
 
-- sieves (pritchard, eratosthenes)
+- sieves (pritchard)
 - factorization (pollard-rho, rabin-miller)
 - profiling
 - saturating arithmetic operations
