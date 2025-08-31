@@ -18,7 +18,6 @@ jobs:
           set -e
           FILES=$(git ls-files | grep -E '\.(cc|hh|hpp|cpp|cxx)$' || true)
           if [ -z "$FILES" ]; then exit 0; fi
-          clang-format --style=google --dry-run -Werror **/*.{cc,hh}
           clang-format --version
           for f in $FILES; do
             clang-format --style=google --dry-run -Werror "$f"
