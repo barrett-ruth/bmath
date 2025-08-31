@@ -22,9 +22,16 @@ jobs:
 
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_type: [Debug, Release]
     steps:
       - uses: actions/checkout@v4
       - name: Install compiler
-        run: sudo apt-get update && sudo apt-get install -y g++
-      - name: Debug tests (asserts + sanitizers)
-        run: make test MODE=debug
+        run: sudo apt-get update && sudo apt-get install -y g++ cmake
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
