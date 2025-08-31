@@ -11,7 +11,7 @@ namespace bmath {
 
 inline constexpr uint64_t DEFAULT_MOD = 1'000'000'007;
 
-template <std::unsigned_integral T, T M = static_cast<T>(DEFAULT_MOD)>
+template <std::integral T, T M = static_cast<T>(DEFAULT_MOD)>
   requires(M > 0 && DEFAULT_MOD <= std::numeric_limits<T>::max())
 class mint {
  public:
@@ -25,7 +25,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator+=(mint const other) const noexcept {
+  constexpr mint &operator+=(mint const other) const noexcept {
     value += other.value;
 
     return *this;
@@ -44,7 +44,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator*=(mint const other) noexcept {
+  constexpr mint &operator*=(mint const other) noexcept {
     value *= other.value;
 
     return *this;
@@ -62,7 +62,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator/=(mint const other) noexcept {
+  constexpr mint &operator/=(mint const other) noexcept {
     if constexpr (other.get() == 0) {
       static_assert(false, "Cannot divide by 0");
     } else if (other.get() == 0) {
@@ -80,7 +80,7 @@ class mint {
     return mint<T, M>{result};
   }
 
-  constexpr mint& operator%=(mint const other) const noexcept {
+  constexpr mint &operator%=(mint const other) const noexcept {
     value %= other.value;
 
     return *this;
@@ -111,7 +111,7 @@ class mint {
   }
 
   template <std::convertible_to<T> OtherT, OtherT OtherM>
-  friend std::ostream& operator<<(std::ostream& out,
+  friend std::ostream &operator<<(std::ostream &out,
                                   mint<OtherT, OtherM> const other) {
     return out << other.get();
   }
@@ -140,7 +140,7 @@ class mint {
   }
 };
 
-template <std::unsigned_integral T, T M, std::unsigned_integral U>
+template <std::integral T, T M, std::integral U>
   requires(M > 0)
 [[nodiscard]] static constexpr bmath::mint<T, M> pow(mint<T, M> base,
                                                      U exponent) {
@@ -175,7 +175,7 @@ template <std::unsigned_integral T, T M, std::unsigned_integral U>
   return t;
 }
 
-template <std::unsigned_integral T, T M = DEFAULT_MOD>
+template <std::integral T, T M = DEFAULT_MOD>
   requires(M > 0)
 [[nodiscard]] std::string to_string(mint<T, M> const number) {
   return std::to_string(number.get());
@@ -187,12 +187,12 @@ template <class CharT, std::integral T, T M>
 struct std::formatter<bmath::mint<T, M>, CharT> {
   std::formatter<std::basic_string_view<CharT>, CharT> inner;
 
-  constexpr auto parse(std::basic_format_parse_context<CharT>& pc) {
+  constexpr auto parse(std::basic_format_parse_context<CharT> &pc) {
     return inner.parse(pc);
   }
 
   template <class Ctx>
-  auto format(bmath::mint<T, M> const x, Ctx& ctx) const {
+  auto format(bmath::mint<T, M> const x, Ctx &ctx) const {
     std::basic_string<CharT> tmp;
     if constexpr (std::same_as<CharT, wchar_t>) {
       std::format_to(std::back_inserter(tmp), L"{}", x.get());
