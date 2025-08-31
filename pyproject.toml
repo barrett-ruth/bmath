@@ -1,8 +1,8 @@
 [project]
 name = "bmath"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "Header-Only C++ 23 Math Library"
+readme = "readme.md"
 requires-python = ">=3.11"
 dependencies = [
     "pre-commit>=4.3.0",
