@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <format>
 
-#include "../include/bmath.hh"
+#include "../include/bmath/bmath.hh"
 
 using namespace bmath;
 

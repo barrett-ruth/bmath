@@ -1,5 +1,7 @@
-#ifndef BMATH_HEADER_ONLY_MATH_LIB
-#define BMATH_HEADER_ONLY_MATH_LIB
+#ifndef BMATH_MINT_HH
+#define BMATH_MINT_HH
+
+namespace bmath {
 
 #include <format>
 #include <iterator>
@@ -7,11 +9,9 @@
 #include <stdexcept>
 #include <string>
 
-namespace bmath {
-
 inline constexpr uint64_t DEFAULT_MOD = 1'000'000'007;
 
-template <std::integral T, T M = static_cast<T>(DEFAULT_MOD)>
+template <std::unsigned_integral T, T M = static_cast<T>(DEFAULT_MOD)>
   requires(M > 0 && DEFAULT_MOD <= std::numeric_limits<T>::max())
 class mint {
  public:
@@ -140,7 +140,7 @@ class mint {
   }
 };
 
-template <std::integral T, T M, std::integral U>
+template <std::unsigned_integral T, T M, std::unsigned_integral U>
   requires(M > 0)
 [[nodiscard]] static constexpr bmath::mint<T, M> pow(mint<T, M> base,
                                                      U exponent) {
@@ -175,7 +175,7 @@ template <std::integral T, T M, std::integral U>
   return t;
 }
 
-template <std::integral T, T M = DEFAULT_MOD>
+template <std::unsigned_integral T, T M = DEFAULT_MOD>
   requires(M > 0)
 [[nodiscard]] std::string to_string(mint<T, M> const number) {
   return std::to_string(number.get());
