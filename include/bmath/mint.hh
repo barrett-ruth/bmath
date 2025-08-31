@@ -110,9 +110,7 @@ class mint {
     return get() == static_cast<T>(other.get());
   }
 
-  template <std::convertible_to<T> OtherT, OtherT OtherM>
-  friend std::ostream &operator<<(std::ostream &out,
-                                  mint<OtherT, OtherM> const other) {
+  friend std::ostream &operator<<(std::ostream &out, mint const other) {
     return out << other.get();
   }
 
