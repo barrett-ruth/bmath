@@ -51,6 +51,7 @@ class mint {
   }
 
   [[nodiscard]] constexpr mint operator/(mint const other) const noexcept {
+    // TODO: if consteval
     if constexpr (other.get() == 0) {
       static_assert(false, "Cannot divide by 0");
     } else if (other.get() == 0) {
@@ -96,6 +97,7 @@ class mint {
     return *this;
   }
 
+  // TODO: check this
   constexpr mint operator++(int) noexcept {
     auto _this = *this;
 

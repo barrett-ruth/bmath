@@ -40,6 +40,7 @@ class Eratosthenes : public Sieve<Eratosthenes<Limit>, Limit> {
 
   [[nodiscard]] constexpr bool operator[](size_t const number) const {
     if consteval {
+      // TODO: does/can this run at compile time?
       if (number > Limit) {
         throw std::out_of_range(
             std::format("cannot determine primality of {} > size of sieve {}",

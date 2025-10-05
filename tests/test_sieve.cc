@@ -28,6 +28,7 @@ TEST(SieveTest, BasicConstruction) { Eratosthenes<100> sieve; }
 TEST(SieveTest, ValidateAgainstNaive) {
   Eratosthenes<1000> sieve;
 
+  // TODO: assert done at compile time
   for (size_t i = 0; i <= 1000; ++i) {
     EXPECT_EQ(sieve[i], naive_prime(i))
         << "Sieve disagrees with naive checker for " << i;
